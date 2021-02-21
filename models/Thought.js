@@ -11,7 +11,7 @@ const ReactionSchema = new Schema(
     reactionBody: {
       type: String,
       required: true,
-      max: [280, 'too many characters']
+      max: [280, 'Too many characters']
     },
     username: {
       type: String,
@@ -30,24 +30,24 @@ const ReactionSchema = new Schema(
   }
 );
 
-const CommentSchema = new Schema(
+const ThoughtSchema = new Schema(
   {
-    writtenBy: {
-      type: String,
-      required: true
-    },
-    commentBody: {
+    thoughtText: {
       type: String,
       required: true,
-      trim: true
+      min: 1,
+      max: [280, 'Too many characters']
+    },
+    username: {
+      type: String,
+      required: true
     },
     createdAt: {
       type: Date,
       default: Date.now,
       get: createdAtVal => dateFormat(createdAtVal)
     },
-    // use ReplySchema to validate data for a reply
-    replies: [ReplySchema]
+    reactions: [ReactionSchema]
   },
   {
     toJSON: {
@@ -58,10 +58,10 @@ const CommentSchema = new Schema(
   }
 );
 
-CommentSchema.virtual('replyCount').get(function() {
-  return this.replies.length;
+ThoughtSchema.virtual('reactionCount').get(function() {
+  return this.reactions.length;
 });
 
-const Comment = model('Comment', CommentSchema);
+const Thought = model('Thought', ThoughtSchema);
 
-module.exports = Comment;
+module.exports = Thought;
