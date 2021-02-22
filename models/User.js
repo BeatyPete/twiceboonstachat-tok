@@ -1,4 +1,4 @@
-const { Schema, model, } = require('mongoose');
+const { Schema, model } = require('mongoose');
 
 const UserSchema = new Schema(
   {
@@ -14,8 +14,18 @@ const UserSchema = new Schema(
       unique: true,
       match: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     },
-    thoughts: [],
-    friends: []
+    thoughts: [
+      /* {
+        type: Schema.Types.ObjectId,
+        ref: 'Thought'
+      } */
+    ],
+    friends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+      }
+    ]
   },
   {
     toJSON: {
